@@ -76,6 +76,6 @@ public class LeagueStandingsTest {
         StringBuffer expectedTeamStandings = new StringBuffer();
         expectedTeamStandings.append("1. Team3, 3 pts\n");
         expectedTeamStandings.append("2. Team1, 1 pt\n");
-        expectedTeamStandings.append("3. Team2, 1 ptx\n");
+        expectedTeamStandings.append("2. Team2, 1 ptx\n");
     }
 }

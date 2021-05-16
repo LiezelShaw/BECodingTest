@@ -43,9 +43,18 @@ public class LeagueStandings {
         List<Team> sortedTeams = teamStandings.values().stream().sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         int count = 0;
+        int previousPoints = -1;
+        int ranking = 0;
         StringBuilder output = new StringBuilder();
         for (Team team : sortedTeams) {
-            output.append(++count);
+            count++;
+            if (previousPoints == team.getPoints()) {
+                output.append(ranking);
+
+            } else {
+                output.append(count);
+                ranking = count;
+            }
             output.append(". ").append(team.getName());
             output.append(", ").append(team.getPoints());
             if (team.getPoints() == 1) {
@@ -54,6 +63,7 @@ public class LeagueStandings {
                 output.append(" pts");
             }
             output.append("\n");
+            previousPoints = team.getPoints();
         }
         return output.toString();
     }
