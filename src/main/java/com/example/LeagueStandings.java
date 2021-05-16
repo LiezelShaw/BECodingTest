@@ -39,12 +39,12 @@ public class LeagueStandings {
         return team;
     }
 
-    private void printTeamStandings() {
+    public String calculateTeamStandings() {
         List<Team> sortedTeams = teamStandings.values().stream().sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         int count = 0;
+        StringBuilder output = new StringBuilder();
         for (Team team : sortedTeams) {
-            StringBuilder output = new StringBuilder();
             output.append(++count);
             output.append(". ").append(team.getName());
             output.append(", ").append(team.getPoints());
@@ -53,11 +53,36 @@ public class LeagueStandings {
             } else {
                 output.append(" pts");
             }
-            System.out.println(output.toString());
+            output.append("\n");
         }
+        return output.toString();
     }
 
+    public void printTeamStandings() {
+        System.out.println(calculateTeamStandings());
+    }
 
+    public void inputMatchScores(File file) throws FileNotFoundException{
+        Scanner scanner = new Scanner(file);
+        scanner.useDelimiter("\\s|,|\n");
+        while (scanner.hasNextLine()) {
+            Match match = new Match();
+            StringBuilder team1 = new StringBuilder(scanner.next());
+            while (!scanner.hasNextInt()) {
+                team1.append(" ").append(scanner.next());
+            }
+            match.setTeam1(getTeam(team1.toString().trim()));
+            match.setScore1(scanner.nextInt());
+
+            StringBuilder team2 = new StringBuilder(scanner.next());
+            while (!scanner.hasNextInt()) {
+                team2.append(" ").append(scanner.next());
+            }
+            match.setTeam2(getTeam(team2.toString().trim()));
+            match.setScore2(scanner.nextInt());
+            addTeamPoints(match);
+        }
+    }
 
     public static void main(String args[]) {
         try {
@@ -67,25 +92,7 @@ public class LeagueStandings {
                 System.out.println("Specify League results filename as argument");
             } else if (args.length == 1) {
                 File text = new File(args[0]);
-                Scanner scanner = new Scanner(text);
-                scanner.useDelimiter("\\s|,|\n");
-                while (scanner.hasNextLine()) {
-                    Match match = new Match();
-                    StringBuilder team1 = new StringBuilder(scanner.next());
-                    while (!scanner.hasNextInt()) {
-                        team1.append(" ").append(scanner.next());
-                    }
-                    match.setTeam1(leagueStandings.getTeam(team1.toString().trim()));
-                    match.setScore1(scanner.nextInt());
-
-                    StringBuilder team2 = new StringBuilder(scanner.next());
-                    while (!scanner.hasNextInt()) {
-                        team2.append(" ").append(scanner.next());
-                    }
-                    match.setTeam2(leagueStandings.getTeam(team2.toString().trim()));
-                    match.setScore2(scanner.nextInt());
-                    leagueStandings.addTeamPoints(match);
-                }
+                leagueStandings.inputMatchScores(text);
                 leagueStandings.printTeamStandings();
             } else {
                 System.out.println("Invalid argument length");

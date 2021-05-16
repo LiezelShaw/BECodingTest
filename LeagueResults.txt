@@ -3,3 +3,6 @@ Tarantulas 1, FC Awesome 0
 Lions 1, FC Awesome 1
 Tarantulas 3, Snakes 1
 Lions 4, Grouches 0
+Tigers 5, Snakes 2
+Donkeys 0, Fat Ladies 0
+Fat Ladies 2, Tarantulas 4
